@@ -35,7 +35,12 @@ public class ArrayTools {
 
         System.out.print(plainString + "Enter a value to encrypt with. " +
                 boldString);
-                shiftRange = Integer.parseInt(userInput.nextLine());
+        try {
+            shiftRange = Integer.parseInt(userInput.nextLine());
+        }catch (NumberFormatException e) {
+            System.out.println("Enter a valid numeric value");
+        }     
+         
 
         // Encrypting the entered value
         StringBuilder encryptOutput = caesarCipher(inputVal, shiftRange);
@@ -44,11 +49,11 @@ public class ArrayTools {
 
         // Decrypting the encrypted value
         StringBuilder dcryptOutput = caesarCipher(encryptOutput.toString(), -shiftRange);
-        System.out.println(plainString + "Decrypting " + encryptOutput.toString() + " with -" +
+        System.out.println(plainString + "Decrypting " + encryptOutput.toString() + " with " +
                            boldString +   -shiftRange + " : " + dcryptOutput.toString());
 
         //Collects Array from user for testing
-        System.out.println(plainString + "Enter the array for Testing: " + boldString);
+        System.out.println(plainString + "Enter the array in [x,x,x] format for Testing: " + boldString);
         inputVal = userInput.nextLine();
         
         //method to convert string to array
@@ -121,7 +126,7 @@ public class ArrayTools {
         } catch (Exception e) {
 
             //print exception while conversion
-            System.out.println(e.getMessage() + " Enter the Valid Numeric Value");
+            System.out.println(e.getMessage() + " Enter the valid numeric array in [x,x,x] format");
         }
 
     }
