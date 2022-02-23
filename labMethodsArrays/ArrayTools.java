@@ -26,20 +26,21 @@ public class ArrayTools {
      */
     public static void main(String[] args) {
         String inputVal;
-        int shiftRange;
+        int shiftRange = 0;
 
         // Scanner permits a user to read a number from the System.in
         Scanner userInput = new Scanner(System.in);
         System.out.print(" Enter a string to encrypt. " + boldString);
         inputVal = userInput.nextLine();
-
-        System.out.print(plainString + "Enter a value to encrypt with. " +
-                boldString);
-        try {
-            shiftRange = Integer.parseInt(userInput.nextLine());
-        }catch (NumberFormatException e) {
-            System.out.println("Enter a valid numeric value");
-        }     
+        do{
+            try {
+                System.out.print(plainString + "Enter a value to encrypt with. " + boldString);
+                shiftRange = Integer.parseInt(userInput.nextLine());
+            }catch (NumberFormatException e) {
+                System.out.println( plainString + "Enter a valid numeric value");
+            }  
+        }while(shiftRange == 0);        
+           
          
 
         // Encrypting the entered value
@@ -49,15 +50,11 @@ public class ArrayTools {
 
         // Decrypting the encrypted value
         StringBuilder dcryptOutput = caesarCipher(encryptOutput.toString(), -shiftRange);
-        System.out.println(plainString + "Decrypting " + encryptOutput.toString() + " with " +
-                           boldString +   -shiftRange + " : " + dcryptOutput.toString());
+        System.out.println(plainString + "Decrypting " + boldString + encryptOutput.toString() + plainString + " with " +
+                           boldString +   -shiftRange + plainString + " is " + boldString + dcryptOutput.toString());
 
-        //Collects Array from user for testing
-        System.out.println(plainString + "Enter the array in [x,x,x] format for Testing: " + boldString);
-        inputVal = userInput.nextLine();
-        
         //method to convert string to array
-        arrayTestingMethod(inputVal, userInput);
+        arrayTestingMethod(userInput);
 
         //prevent memory leakage
         userInput.close();
@@ -91,8 +88,10 @@ public class ArrayTools {
      * @param userInput scanner object to get value from user for searching
      * @throws NumberFormatException if user inputs any value except numeric value
      */
-    public static void arrayTestingMethod(String inputVal, Scanner userInput) throws NumberFormatException {
-
+    public static void arrayTestingMethod(Scanner userInput) throws NumberFormatException {
+//Collects Array from user for testing
+        System.out.println(plainString + "Enter the array in [x,x,x] format for Testing: " + boldString);
+        String inputVal = userInput.nextLine();
         try {
             int inputValLength = inputVal.length();
 
@@ -107,7 +106,7 @@ public class ArrayTools {
                         .map(String::trim).mapToInt(Integer::parseInt).toArray();
 
                 //Call method to calculate average of arrays
-                System.out.println(plainString + String.valueOf(averageArray(inputValArray)));
+                System.out.println(plainString + "Average value of " + Arrays.toString(inputValArray)  + " is " + String.valueOf(averageArray(inputValArray)));
 
                 //Get user input to search value in array
                 System.out.println("Enter a value to search for. " + boldString);
@@ -121,12 +120,14 @@ public class ArrayTools {
                 System.out.println(boldString + reverseArray(inputValArray));
 
             } else {
-                System.out.println("Enter the Valid Array");
+                System.out.println(plainString + "Enter the Valid Array");
+                arrayTestingMethod(userInput); //again call method to get correct input
             }
         } catch (Exception e) {
 
             //print exception while conversion
             System.out.println(e.getMessage() + " Enter the valid numeric array in [x,x,x] format");
+            arrayTestingMethod(userInput); //again call method to get correct input
         }
 
     }
